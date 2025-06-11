@@ -58,7 +58,7 @@ function App() {
     return true
   })
 
-  // BUG 2: Mark complete doesn't update UI - the function doesn't actually update state
+  // FIXED: Mark complete now updates UI - the function properly updates state
   const markComplete = async (taskId) => {
     // Mock API call that "works" in backend
     console.log(`Marking task ${taskId} as complete...`)
@@ -66,10 +66,10 @@ function App() {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500))
     
-    // BUG: This line is commented out, so the UI never updates
-    // setTasks(tasks.map(task => 
-    //   task.id === taskId ? { ...task, completed: !task.completed } : task
-    // ))
+    // FIXED: Now properly updates the UI by updating state
+    setTasks(tasks.map(task => 
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    ))
     
     console.log(`Task ${taskId} marked as complete in backend!`)
   }
