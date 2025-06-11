@@ -145,13 +145,13 @@ function App() {
               <div 
                 key={task.id} 
                 className={`task-item ${task.completed ? 'completed' : ''}`}
-                onMouseEnter={() => handleTaskHover(task)} // BUG 3: This will cause an error
+                onMouseEnter={() => handleTaskHover(task)} // FIXED: No longer causes errors with optional chaining
               >
                 <div className="task-checkbox">
                   <input 
                     type="checkbox" 
                     checked={task.completed}
-                    onChange={() => markComplete(task.id)} // BUG 2: Won't update UI
+                    onChange={() => markComplete(task.id)} // FIXED: Now properly updates UI
                   />
                 </div>
                 <div className="task-content">
