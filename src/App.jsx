@@ -44,13 +44,17 @@ function App() {
   const [tasks, setTasks] = useState(initialTasks)
   const [filter, setFilter] = useState('all')
 
-  // BUG 1: Filter not working - the filter logic is broken
+  const getTodayString = () => {
+    return new Date().toISOString().split('T')[0]
+  }
+
+  // FIXED: Filter logic now works correctly
   const filteredTasks = tasks.filter(task => {
     if (filter === 'all') return true
     if (filter === 'completed') return task.completed
     if (filter === 'pending') return !task.completed
-    // BUG: This condition will never work because we're comparing wrong values
-    if (filter === 'due-today') return task.dueDate === 'today' // Should compare with actual today's date
+    // FIXED: Now correctly compares with actual today's date
+    if (filter === 'due-today') return task.dueDate === getTodayString()
     return true
   })
 
@@ -70,14 +74,10 @@ function App() {
     console.log(`Task ${taskId} marked as complete in backend!`)
   }
 
-  // BUG 3: Error on hover - accessing undefined property
+  // FIXED: Error on hover - safely accessing properties
   const handleTaskHover = (task) => {
-    // BUG: Trying to access a property that doesn't exist
-    console.log(`Hovering over task with category: ${task.category.name}`) // task.category is undefined
-  }
-
-  const getTodayString = () => {
-    return new Date().toISOString().split('T')[0]
+    // FIXED: Safely access category property with optional chaining
+    console.log(`Hovering over task with category: ${task.category?.name || 'No category'}`)
   }
 
   const formatDate = (dateString) => {
